@@ -1,0 +1,97 @@
+* Configuraciones
+
+Repositorio encargado de llegar la gestión de la configuración de todos los ficheros de configuración
+del usario erik@master.ch2it.com.
+
+** Motivación
+
+Desde siempre me a parecido interesante el poder desplegar desde otro PC, ya fuese la estación de trabajo dentro de una empresa,
+la configuración de los programas que empleo rutinariamente y así poder ser más productivo.
+
+** Soluciones
+
+*** Soluciones simplistas
+
+La idea de partida era crear un repositorio en $HOME e ignorar el seguimieto salvo de los ficheros de configuración.
+Luego esta la opción de fijar tanto el --git-dir como el --work-tree del repositorio en el momento de su creación.
+De tal manera que --git-dir apunte al directorio de trabajo actual y el --work-tree a $HOME
+
+git --git-dir="/path/to/working/directory/.git" --work-tree="$HOMEW" 
+
+**** Principal problema
+
+El principal problema de este escenario es que necesariamente los ficheros de configuración debe encontrarse en $HOME.
+Eso es un problema principalmente porque las configuraciones de ciertos programas pueden proceder de repositorios remotos.
+Los repositorios sufren cambios y no es productivo estar reemplanzando el fichero local cada vez que existe una modificación
+remota.
+Por ejemplo la configuración de Tmux procede del siguiente repositorio remoto [[https://github.com/gpakosz/.tmux][repo-tmux]] .
+
+*** Solución final
+
+Paracer ser que la solución al problema anterior consiste en crear soft links de los ficheros de configuración almacenados
+dentro de algún subdirectorio de $HOME en $HOME.
+Un soft link de un fichero es un acceso directo al mismo. Para crear este tipo de links ejectuamos el comando :
+
+#+BEGIN_SRC shell
+ln -s -f /path/to/remote/repo/init.el ~/init.el
+#+END_SRC  
+
+Ahora desde nuestro directorio de trabajo podemos realizar cambios o simplemente pull request para estar al día.
+
+** Implementación de la solución
+
+Las configuraciones bajo seguimiento son :
+
+- .bashrc y .shell/*
+- .emacs.d/init.el
+- .tmux.conf y .tmux.conf.local
+
+*** Patrón
+
+Dentro del directorio $CONFIGURACIONES vamos a tener diferentes directorios :
+- home
+- emacs
+- tmux
+
+Cada uno de los directorios anteriores puede tener multiples configuraciones dependiendo si son remotas o locales.
+En cualquier momento se puede cambiar actualizar el soft link y cargar la configuración que deseemos.
+Las configuraciones se almacenan dentro del directorio configs.
+Asi pues un resumen del layout para tmux sería :
+
+-/home/erik/Documentos/Proyectos/configuraciones/tmux/readme.org
+-/home/erik/Documentos/Proyectos/configuraciones/tmux/configs/.tmux
+-/home/erik/Documentos/Proyectos/configuraciones/tmux/configs/.tmux/.tmux.conf  ----------> ~/.tmux.conf
+-/home/erik/Documentos/Proyectos/configuraciones/tmux/configs/.tmux/.tmux.conf.local------> ~/.tmux.conf.local
+-/home/erik/Documentos/Proyectos/configuraciones/tmux/configs/default
+-/home/erik/Documentos/Proyectos/configuraciones/tmux/configs/default/.tmux.conf  -----------------------------------> ~/.tmux.conf
+
+Existe un directorio layout que nos va servir de base para generar nuevos layouts de futuras configuraciones. Para generar el layout
+fue necesario agregar ficheros readme.md en los diferentes directorios. Git no lleva un registro de directorios vacios.
+
+*** Tmux
+
+La configuración de Tmux procede del un [[https://github.com/gpakosz/.tmux][repositorio remoto]]. Nos desplazamos al directorio /home/erik/Documentos/Proyectos/configuraciones/tmux/configs    
+y clonamos el repositorio
+#+BEGIN_SRC shell
+git clone  add https://github.com/gpakosz/.tmux 
+#+END_SRC 
+
+Creamos el soft link del fichero .tmux.conf y .tmux.conf dentro de $HOME
+
+#+BEGIN_SRC shell
+ln -s -f $HOME/Proyectos/configuraciones/tmux/configs/.tmux/.tmux.conf $HOME/.tmux.conf 
+ln -s -f $HOME/Proyectos/configuraciones/tmux/configs/.tmux/.tmux.conf.local $HOME/.tmux.conf.local 
+#+END_SRC 
+
+A partir de hora cualquier si queremos modificar Tmux debemos de actualizar los ficheros de configuración del directorio de trabajo actual.
+En concreto el fichero .tmux.conf.local del directorio actual.
+
+Los detallas a mayor nivel de las configuraciones de Tmux se encuentran en [[file:./tmux/readme.org][tmux configuraciones en detalle]].
+
+*** Resto de configuraciones
+Básicamente consiste en repetidor los pasos del bloque anterior por lo que no vamos a volver a repetirlos.
+** Administración
+
+Como administradores debemos de encargarnos de generar los soft links al fichero de configuración que deseemos cargar al programa.
+
+

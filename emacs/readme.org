@@ -1,0 +1,16 @@
+* Emacs 
+Emacs se ha convertido en mi editor de texto favorito por el enorme poder de customización.
+Existe una gran comunidad de desarrollares que comparten sus paquetes para hacer de emacs
+una herramiento de trabajo muy productiva.
+** Paquetes
+*** Melpa
+Este paquete permite lanzar los comandos de git en emacs.
+**** Instalación
+Me esta dando error a la hora de descargar el paquete desde el gestor de paquetes de Emacs.
+He probado a instalarlo a partir del código fuente pero me salta el siguiente error : No
+encuentra libgit.
+La última vez que lo instale no tuve ningun problema. Emplee del gestor de paquetes de Emacs.
+Dado que tengo un backup de todos los paquetes de mi última instancia de emacs voy a optar por 
+copiarlos dentro del directorio ~/.emacs.d/elpa.
+
+

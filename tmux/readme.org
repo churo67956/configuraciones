@@ -1,0 +1,28 @@
+* Tmux
+** Primeros pasos
+Es necesario asegurnos que Tmux carga el fichero de configuración.
+Iniciamos una sesión. Y ejecutamos el siguiente comando
+#+BEGIN_SRC shell
+tmux source ~/.tmux.conf
+#+END_SRC
+
+Internamente ~/.tmux.conf hace una llamada a ~/.tmux.conf.local.
+*** ~/.tmux.conf.local
+Las configuraciones los realizaremos sobre el fichero ~/.tmux.conf.local
+
+** Restauración de sesiones
+Si miramos el fichero de configuración observamos que por defecto nos descarga el tmux plugin manager.
+Los plugins se instalan dentro del directorio ~/.tmux/plugins.
+Para descargamos resurrect basta con descomentar las lineas del fichero de configuración
+y arrancar el gestor de paquetes mediante <prefix> , I.
+#+BEGIN_SRC shell
+set -g @plugin 'tmux-plugins/tmux-cpu'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+#+END_SRC
+
+*** Comandos 
+<prefix> C-s para guardar la sesión.
+<prefix> C-r para abrir la sesión guardada.
+*** Fuente 
+https://www.maketecheasier.com/manage-restore-tmux-sessions-linux/
+
