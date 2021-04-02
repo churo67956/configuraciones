@@ -88,6 +88,24 @@ En concreto el fichero .tmux.conf.local del directorio actual.
 
 Los detallas a mayor nivel de las configuraciones de Tmux se encuentran en [[file:./tmux/readme.org][tmux configuraciones en detalle]].
 
+*** Home
+También vamos a llegar el seguimiento de los modificaciones realizadas en el fichero $HOME/.bash.
+Los pérmisos asignado a este fichero son los siguientes
+#+BEGIN_SRC shell
+ls -l -a ~ | grep .bashrc 
+#+END_SRC
+
+#+RESULTS:
+| -rwxr-xr-x | 1 | erik | erik | 3597 | abr |  2 | 02:33 | .bashrc              |    |                                                                                          |
+| -rw-r--r-- | 1 | erik | erik | 3526 | mar | 20 | 13:16 | .bashrc~             |    |                                                                                          |
+| lrwxrwxrwx | 1 | erik | erik |   88 | abr |  2 | 02:15 | .bashrc_ev_variables | -> | /home/erik/Documentos/Proyectos/configuraciones/home/configs/default/.bash_env_variables |
+
+Como se puede observar necesitamos es necesario emplear permisos de ejecución.
+Lo movemos a nuestro directorio de configuraciones por defecto y creamos el soft link
+
+
+
+
 *** Resto de configuraciones
 Básicamente consiste en repetidor los pasos del bloque anterior por lo que no vamos a volver a repetirlos.
 ** Administración

@@ -20,15 +20,90 @@ There are two things you can do about this warning:
 ;;Refleja los cambios en los buffers al cambiar de una rama a otra de git, sin necesidad de realizar un reverse
 (global-auto-revert-mode 1)
 
+;;move among panels 
+(global-set-key (kbd "C-c <left>")  'windmove-left)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
+(global-set-key (kbd "C-c <up>")    'windmove-up)
+(global-set-key (kbd "C-c <down>")  'windmove-down)
+
 ;;Assing a file a determinate mode
 ;;(add-to-list 'auto-mode-alist '("\\.md\\'" . org-mode))
+
+;;(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+;; '(package-selected-packages (quote (projectile melpa-upstream-visit magit))))
+;;(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+;; )
+
+;; recentf mode to open saved files using C-x C-r
+(recentf-mode 1)
+(defvar recentf-max-menu-items 25)
+(defvar recentf-max-saved-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+;; supported languages for org-mode execution
+;; also in a transparent mode not confirmation needed
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((latex . t)
+   (python . t)
+   (scala .t)
+   (org . t)
+   (octave .t)
+   (shell . t)))
+;;disable code evaluate confirmation from the user
+;;(defun my-org-confirm-babel-evaluate (lang body)
+ ;; (not (member lang '("latex" "shell" "scala" "org" "python" "octave"))))
+;;   (not (string= lang "shell")))
+;;(defvar org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+(setq org-confirm-babel-evaluate nil        ;; for running code blocks
+      org-confirm-elisp-link-function nil   ;; for elisp links
+      org-confirm-shell-link-function nil)  ;; for shell links
+ 
+;;fancy statusline
+(require 'powerline)
+(powerline-default-theme)
+
+;;enable google-translate 
+(require 'google-translate)
+(require 'google-translate-default-ui)
+(global-set-key "\C-ct" 'google-translate-at-point)
+(global-set-key "\C-cT" 'google-translate-query-translate)
+;; set principal target language to avoid request
+(setq  google-translate-default-target-language "es")
+;; set pricipal source language to avoid request
+(setq  google-translate-default-source-language "en")
+
+(use-package google-translate
+  :ensure t
+  :custom
+  (google-translate-backend-method 'curl)
+  :config
+   (defun google-translate--search-tkk () "Search TKK." (list 430675 2721866130)))
+
+;; enable a template system
+(defvar yas-snippet-dirs
+  '("~/Documentos/Proyectos/configuraciones/emacs/snippets" ;;personal snippets
+    "~/Documentos/Proyectos/configuraciones/emacs/snippets/yasnippet-snippets/snippets" ;;remote snippets
+    ))
+(require 'yasnippet)
+(yas-global-mode 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (projectile melpa-upstream-visit magit))))
+ '(package-selected-packages
+   (quote
+    (yasnippet-snippets projectile melpa-upstream-visit magit))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

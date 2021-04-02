@@ -12,5 +12,15 @@ encuentra libgit.
 La última vez que lo instale no tuve ningun problema. Emplee del gestor de paquetes de Emacs.
 Dado que tengo un backup de todos los paquetes de mi última instancia de emacs voy a optar por 
 copiarlos dentro del directorio ~/.emacs.d/elpa.
-
-
+*** Yasnippet
+Permite crear tus propios templates para luego introducirlos en los buffers.
+El paquete que vamos a emplear es  https://github.com/joaotavora/yasnippet .
+Nos vamos a descargar unos snippets para no empezar de cero : https://github.com/AndreaCrotti/yasnippet-snippets .
+Debemos de agregar el directorio snippets del repositorio descargado previamente en la variable yas-snippet-dirs.
+Para acceder de forma rápida M-x yas-insert-snippet. Se nos abre una barra donde debemos de especificar el nombre
+del comando.
+*** Google-tranlator
+Si nos surgue cualquier duda con el significado en castellano de alguna parabra en ingles mejor traducirla empleando
+algún traductor. El traductor que normalmente empleo es google transaltor y existe un paquete para emacs que nos facilita
+el servicio.
+La información y configuración del paquete se puede encontrar en https://github.com/atykhonov/google-translate .
