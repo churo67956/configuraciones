@@ -26,6 +26,7 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c <up>")    'windmove-up)
 (global-set-key (kbd "C-c <down>")  'windmove-down)
 
+(global-set-key (kbd "C-w") 'xah-beginning-of-line-or-block)
 ;;Assing a file a determinate mode
 ;;(add-to-list 'auto-mode-alist '("\\.md\\'" . org-mode))
 

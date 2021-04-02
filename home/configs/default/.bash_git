@@ -1,0 +1,69 @@
+# Git Commands
+# Add and Commit are used as functions
+alias repo_crear="git ini"
+alias gi="git ini"
+alias gpo='git push -u origin master'
+alias gpof='git push -u -f origin master'
+alias repo_volcar_forzado='git push -u -f origin master'
+alias repo_volcar='git push -u  origin master'
+alias gp='git pull'
+alias gs='git status'
+alias repo_estado='git status'
+alias gd='git diff'
+alias gr='git reflog'
+alias glf='git ls-files'
+alias repo_master2main='git branch -M main'
+alias repo_rama_main='git checkout main'
+#ejecutar comandos git desde un directorio diferente al git-dir
+function repo_on_the_fly_git ()
+{
+   local _gg="$1";
+   shift;
+   git --git-dir="${_gg}/.git" --work-tree="${_gg}" "$@";
+}
+
+function gg ()
+{
+   local _gg="$1";
+   shift;
+   git --git-dir="${_gg}/.git" --work-tree="${_gg}" "$@"
+}
+
+function repo_emparejaar(){
+   local _gg="$1";
+   git remote add origin git@github.com:churo6756/"${_gg}.git"
+}
+
+function repo_vincularar(){
+   local _gg="$1";
+   git remote add origin git@github.com:churo6756/"${_gg}.git"
+}
+
+function repo_agregar_cambios(){
+    git add "$@"
+ }
+
+
+function repo_commit(){
+    git commit -m "$*"
+}
+
+function repo_descargar(){
+    git clone "$*";
+}
+
+function repo_clonar(){
+    git clone "$*";
+}
+
+function repo_rama_seccionar () {
+   git checkout "$@"
+}
+
+function repo_rama_crear(){
+  git branch "$@"
+}
+
+function paquetes_descargar(){
+    sudo apt-get install "$@"
+}

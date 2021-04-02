@@ -1,0 +1,11 @@
+# ~/.bash_env_variables: mis variables de ambiente
+
+# Projectos 
+export PROYECTOS=/home/erik/Documentos/Proyectos
+# Proyectos sobre las configuraciones
+export CONFIGURACIONES=/home/erik/Documentos/Proyectos/configuraciones
+export CONF_EMACS=/home/erik/Documentos/Proyectos/configuraciones/emacs/configs/default/.emacs.d
+export CONF_TMUX=/home/erik/Documentos/Proyectos/configuraciones/tmux/configs/.tmux
+export CONF_HOME=/home/erik/Documentos/Proyectos/configuraciones/home/configs/default
+
+

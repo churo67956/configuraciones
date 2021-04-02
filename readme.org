@@ -39,6 +39,8 @@ ln -s -f /path/to/remote/repo/init.el ~/init.el
 Ahora desde nuestro directorio de trabajo podemos realizar cambios o simplemente pull request para estar al día.
 
 ** Implementación de la solución
+*NOTA: Antes de realizar una operación sobre los fichero si estamos seguros crear una copia 
+de seguidad mediante el comando cp.*
 
 Las configuraciones bajo seguimiento son :
 
@@ -88,6 +90,15 @@ En concreto el fichero .tmux.conf.local del directorio actual.
 
 Los detallas a mayor nivel de las configuraciones de Tmux se encuentran en [[file:./tmux/readme.org][tmux configuraciones en detalle]].
 
+*** Emacs
+El fichero de configuración de Emacs lo tengo dentro del directorio ~/.emacs.d/init.el .
+Para llegar el seguimiento lo vamos a desplazar al directorio ~/Documentos/Proyectos/configuraciones/emacs/configs/default/.emacs.d/init.el .
+Creamos el soft link en ~/.emacs.d del fichero de configuración.
+#+begin_src shell
+ln -s -f  ~/Documentos/Proyectos/configuraciones/emacs/configs/default/.emacs.d/init.el ~/.emacs.d/init.el 
+#+end_src
+Ya podemos instalador nuestros paquetes. 
+Más información [[file:emacs/readme.org][Mi configuración de Emacs]].
 *** Home
 También vamos a llegar el seguimiento de los modificaciones realizadas en el fichero $HOME/.bash.
 Los pérmisos asignado a este fichero son los siguientes
@@ -101,7 +112,27 @@ ls -l -a ~ | grep .bashrc
 | lrwxrwxrwx | 1 | erik | erik |   88 | abr |  2 | 02:15 | .bashrc_ev_variables | -> | /home/erik/Documentos/Proyectos/configuraciones/home/configs/default/.bash_env_variables |
 
 Como se puede observar necesitamos es necesario emplear permisos de ejecución.
-Lo movemos a nuestro directorio de configuraciones por defecto y creamos el soft link
+Lo movemos a nuestro directorio de configuraciones por defecto y creamos el soft link como de constumbre.
+Vamos crear cuatro nuevos ficheros y los llamaremos : 
+- .bash_aliases para crear nuevos alias
+- .bash_funciones para crear funciones personalizadas.
+- .bash_git variable,funciones y alias propias de git
+- .bash_env_variables variables de ambiente personales.
+Estos ficheros se cargan desde la configuración principal que en princio no deberíamos tocar.
+Cualquier configuración se agregara en alguno de los ficheros anteriores o crearemos un fichero 
+que se ajuste mejor a nuestras necesidades.
+Al copiar mover el fichero ~/.bashrc desde su directorio original al directorio de seguimineto he visto
+que se pierden ciertos pérmisos debemos asegurarnos que el usuario propietario pueda ejecutar dicho fichero.
+De la misma forma al crear el fichero .bash_funciones el usuario priopietario no tiene permiso de ejecución.
+Agregar el dicho permiso antes de recargar la configuración .bashrc .
+
+#+begin_src shell
+ln -s -f /home/erik/Documentos/Proyectos/configuraciones/home/configs/default/.bashrc ~/.bashrc                                                                                     
+ln -s -f /home/erik/Documentos/Proyectos/configuraciones/home/configs/default/.bash_env_variables /home/erik/.bash_ev_variables                                                     
+ln -s -f /home/erik/Documentos/Proyectos/configuraciones/home/configs/default/.bash_env_variables  ~/.bash_env_variables                                                            
+ln -s -f /home/erik/Documentos/Proyectos/configuraciones/home/configs/default/.bash_aliases  ~/.bash_aliases 
+#+end_src
+
 
 
 
