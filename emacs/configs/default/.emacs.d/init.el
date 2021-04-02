@@ -26,7 +26,7 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c <up>")    'windmove-up)
 (global-set-key (kbd "C-c <down>")  'windmove-down)
 
-(global-set-key (kbd "C-w") 'xah-beginning-of-line-or-block)
+
 ;;Assing a file a determinate mode
 ;;(add-to-list 'auto-mode-alist '("\\.md\\'" . org-mode))
 
@@ -111,3 +111,28 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(defun xah-beginning-of-line-or-block ()
+  "Move cursor to beginning of line or previous paragraph.
+
+• When called first time, move cursor to beginning of char in current line. (if already, move to beginning of line.)
+• When called again, move cursor backward by jumping over any sequence of whitespaces containing 2 blank lines.
+
+URL `http://ergoemacs.org/emacs/emacs_keybinding_design_beginning-of-line-or-block.html'
+Version 2017-05-13"
+  (interactive)
+  (let (($p (point)))
+    (if (or (equal (point) (line-beginning-position))
+            (equal last-command this-command ))
+        (if (re-search-backward "\n[\t\n ]*\n+" nil "NOERROR")
+            (progn
+              (skip-chars-backward "\n\t ")
+              (forward-char ))
+          (goto-char (point-min)))
+      (progn
+        (back-to-indentation)
+        (when (eq $p (point))
+          (beginning-of-line))))))
+
+
+(global-set-key (kbd "C-a a") 'xah-beginning-of-line-or-block)
