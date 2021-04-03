@@ -1,0 +1,137 @@
+# ~/.bash_lava : variables de ambiente en el lado del servidor o lava master
+
+export TFG=$PROYECTOS/lava_linaro_ew_testing_framework
+
+export LAVA_WORKER_DIR=/etc/lava-dispatcher
+export LAVA_WORKER_CONF_FILE=/etc/lava-dispatcher/lava-worker
+export LAVA_MASTER_DIR=/etc/lava-worker/
+export LAVA_MASTER_GUNICORN_CONF_FILE=/etc/lava-server/lava-server-gunicorn
+export LAVA_MASTER_PUBLISHER_CONF_FILE=/etc/lava-server/lava-publisher
+export LAVA_MASTER_SCHEDULER_CONF_FILE=/etc/lava-server/lava-scheduler
+export LAVA_MASTER_ENV_FILE=/etc/lava-server/env.yaml
+export LAVA_MASTER_SETTINGS_FILE=/etc/lava-server/settings.d/00-settings.yaml
+export LAVA_MASTER_SETTINGS=/etc/lava-server/settings.d
+export LAVA_MASTER_APACHE_CONF_FILE=/etc/apache2/sites-enabled/lava-server.conf
+
+export LAVA_WORKER_SERVICE=/lib/systemd/system/lava-worker.service
+export LAVA_SERVER_GUNICORN_SERVICE=/lib/systemd/system/lava-server-gunicorn.service
+export LAVA_SCHEDULER_SERVICE=/lib/systemd/system/lava-scheduler.service
+export LAVA_PUBLISHER_SERVICE=/lib/systemd/system/lava-publisher.service
+#tipo de instalacion
+
+source ~/.bash_lava_tipo_instalacion
+
+function lava_worker_estado(){
+    systemctl status lava-worker.service
+}
+
+function lava_worker_parar() {
+    systemctl stop lava-worker.service
+    lava_worker_estado
+}
+function lava_worker_arrancar(){
+    systemctl start lava-worker.service
+    lava_worker_estado
+}
+
+
+function lava_publisher_parar(){
+    systemctl stop lava-publisher.service
+}
+function lava_publisher_arrancar(){
+    lava_publisher_parar
+    systemctl start lava-publisher.service
+}
+function lava_publisher_estado(){
+    systemctl status lava-publisher.service
+}
+
+function lava_scheduler_parar(){
+    systemctl stop lava-scheduler.service
+}
+function lava_scheduler_arrancar(){
+    lava_scheduler_parar
+    systemctl start lava-scheduler.service
+}
+function lava_scheduler_estado(){
+    systemctl status lava-scheduler.service
+}
+
+
+function lava_server_gunicorn_parar(){
+    systemctl stop lava-server-gunicorn.service
+}
+function lava_server_gunicorn__arrancar(){
+    lava_server_gunicorn_parar
+    systemctl start lava-server-gunicorn.service
+}
+function lava_server_gunicorn_estado(){
+    systemctl status lava-server-gunicorn.service
+}
+
+
+function apache2_parar(){
+    systemctl stop apache2.service
+}
+function apache2_arrancar(){
+    apache2_parar
+    systemctl start apache2.service
+}
+function apache2_estado(){
+    systemctl status apache2.service
+}
+
+function lava_master_parar() {
+    lava_publisher_parar
+    if $LAVA_LOCAL
+    then
+	lava_worker_parar
+    fi
+    lava_scheduler_parar
+    lava_server_gunicorn_parar
+    apache2_parar
+}
+
+function lava_master_arrancar() {
+    apache2_arrancar
+    lava_server_gunicorn_arrancar
+    lava_scheduler_arrancar
+    lava_publisher_arrancar
+    if $LAVA_LOCAL
+    then
+	lava_worker_arrancar
+    fi   
+}
+
+function lava_worker_config_builder(){
+
+mv $LAVA_WORKER_CONF_FILE $TFG/configs/default/lava-worker
+crear_soft_link  $TFG/configs/default/lava-worker $LAVA_WORKER_CONF_FILE
+
+}
+
+
+#error con los permisos
+#TODO agregar permisos de rw al grupo root y agregar al usuario al grupo root
+#ejecutar el comando
+function lava_master_conf_builder(){
+
+if $LAVA_LOCAL
+then
+  mv $LAVA_WORKER_CONF_FILE $TFG/configs/default/lava-worker
+  crear_soft_link  $TFG/configs/default/lava-worker $LAVA_WORKER_CONF_FILE
+fi
+mv $LAVA_MASTER_GUNICORN_CONF_FILE $TFG/configs/default/lava-server-gunicorn
+mv $LAVA_MASTER_PUBLISHER_CONF_FILE $TFG/configs/default/lava-publisher
+mv $LAVA_MASTER_SCHEDULER_CONF_FILE $TFG/configs/default/lava-scheduler
+mv $LAVA_MASTER_ENV_FILE $TFG/configs/default/env.yaml
+mv $LAVA_MASTER_SETTINGS_FILE $TFG/configs/default/00-settings.yaml
+mv $LAVA_MASTER_APACHE_CONF_FILE $TFG/configs/default/lava_server.conf
+
+crear_soft_link $TFG/configs/default/lava-server-gunicorn $LAVA_MASTER_GUNICORN_CONF_FILE
+crear_soft_link $TFG/configs/default/lava-publisher $LAVA_MASTER_PUBLISHER_CONF_FILE
+crear_soft_link $TFG/configs/default/lava-scheduler $LAVA_MASTER_SCHEDULER_CONF_FILE
+crear_soft_link $TFG/configs/default/env.yaml $LAVA_MASTER_ENV_FILE
+crear_soft_link $TFG/configs/default/00-settings.yaml $LAVA_MASTER_SETTINGS_FILE
+crear_soft_link $TFG/configs/default/lava_server.conf $LAVA_MASTER_APACHE_CONF_FILE
+}

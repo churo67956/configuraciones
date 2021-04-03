@@ -123,8 +123,8 @@ Cualquier configuración se agregara en alguno de los ficheros anteriores o crea
 que se ajuste mejor a nuestras necesidades.
 Al copiar mover el fichero ~/.bashrc desde su directorio original al directorio de seguimineto he visto
 que se pierden ciertos pérmisos debemos asegurarnos que el usuario propietario pueda ejecutar dicho fichero.
-De la misma forma al crear el fichero .bash_funciones el usuario priopietario no tiene permiso de ejecución.
-Agregar el dicho permiso antes de recargar la configuración .bashrc .
+Los permisos del resto de ficheros no es necesario cambiarlos.
+
 
 #+begin_src shell
 ln -s -f /home/erik/Documentos/Proyectos/configuraciones/home/configs/default/.bashrc ~/.bashrc                                                                                     

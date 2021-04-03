@@ -117,6 +117,11 @@ if [ -f ~/.bash_git ]; then
     . ~/.bash_git
 fi
 
+# cargar configuraciones lava 
+if [ -f ~/.bash_lava ]; then
+    . ~/.bash_lava
+fi
+
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

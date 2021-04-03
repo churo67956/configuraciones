@@ -64,6 +64,6 @@ function repo_rama_crear(){
   git branch "$@"
 }
 
-function paquetes_descargar(){
-    sudo apt-get install "$@"
+function repo_unstage(){
+ git reset -- "$*"
 }

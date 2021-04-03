@@ -34,3 +34,10 @@ function descomprimir() {
                 echo "'$1' is not a valid file"
         fi
 }
+
+function crear_soft_link() {
+
+ ln -s -f "$@" 
+ lsla "$2"
+}
+
